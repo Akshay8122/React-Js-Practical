@@ -1,45 +1,22 @@
 import TodoDescription from "./TodoDescription";
 import "./App.css";
-import { v4 as uuidv4 } from "uuid";
-import { useState, useEffect } from "react";
+import { TodoContext } from "./Todo";
+import { useContext } from "react";
 
-const TodoList = (prop: { value: string }): JSX.Element => {
-  const [submit, setSubmit] = useState<string[]>(() => {
-    const d = new Date();
-    const todoData = localStorage.getItem("submit");
-    const newdate = d.toLocaleDateString();
-    console.log(d);
-    const setdate = localStorage.getItem("currdate");
+interface TodoListProp {
+  id: number;
+  data: string;
+  check: boolean;
+}
 
-    if (newdate !== setdate) {
-      localStorage.removeItem("submit");
-    }
-    if (todoData) {
-      return JSON.parse(todoData);
-    } else {
-      return [];
-    }
-  });
- 
-  useEffect(() => {
-    if (prop.value === "") {
-      return null;
-    }
-    setSubmit((submit) => {
-      return [...submit, prop.value];
-    });
-  }, [prop.value]);
-
-  useEffect(() => {
-    localStorage.setItem("submit", JSON.stringify(submit));
-  }, [submit]);
+const TodoList = (prop: TodoListProp) => {
+  const { submit } = useContext(TodoContext);
 
   return (
     <div className="card">
-      {localStorage.getItem("submit") &&
-        submit.map((item: string) => (
-          <TodoDescription description={item} key={item} />
-        ))}
+      {submit.map((item) => (
+        <TodoDescription {...item} key={item.id} />
+      ))}
     </div>
   );
 };

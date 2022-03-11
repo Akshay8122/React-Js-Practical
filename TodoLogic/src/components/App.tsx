@@ -1,4 +1,11 @@
-import ReactDOM from "react-dom";
 import Todo from "./Todo";
 
-ReactDOM.render(<Todo />, document.getElementById("root"));
+function App() {
+  return (
+    <div>
+      <Todo />
+    </div>
+  );
+}
+
+export default App;

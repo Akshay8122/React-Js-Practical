@@ -1,75 +1,128 @@
 import TodoList from "./TodoList";
 import TodoDate from "./TodoDate";
 import "./App.css";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, createContext } from "react";
+interface TodoListProp {
+  id: number;
+  data: string;
+  check: boolean;
+}
+type contexttype = {
+  submit: TodoListProp[];
+  setSubmit: React.Dispatch<React.SetStateAction<TodoListProp[]>>;
+};
+//creating Context
+export const TodoContext = createContext({} as contexttype);
 
-const Todo = (): JSX.Element => {
+const getLocalItems = () => {
+  let storageList = localStorage.getItem("submit");
+
+  if (storageList) {
+    return JSON.parse(localStorage.getItem("submit"));
+  } else {
+    return [];
+  }
+};
+
+const Todo = () => {
   const [showLabel, setShowLabel] = useState(false);
-  const [btnVisible, setBtnVisible] = useState(true);
-  const [data, setData] = useState("");
+  const [submit, setSubmit] = useState<TodoListProp[]>(getLocalItems);
+  const [input, setInput] = useState("");
 
-  const submitHandler = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+  //submitHandler
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let date = new Date();
     let currdate = date.toLocaleDateString();
     localStorage.setItem("currdate", currdate);
-  }, []);
+    setShowLabel(true);
+    JSON.parse(localStorage.getItem("submit"));
 
-  const clickHandler = () => {
-    setShowLabel(!showLabel);
-    setBtnVisible(!btnVisible);
+    const submitdata = [
+      {
+        id: Math.random() * 10000,
+        data: input,
+        check: false,
+      },
+    ];
+    setSubmit([...submit, ...submitdata]);
+    setInput("");
   };
 
-  const handleKeyUp = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
-        const element = event.target as HTMLInputElement;
-        setData(element.value);
-      }
-      if (event.key === "Escape") {
-        setBtnVisible(btnVisible);
-        setShowLabel(showLabel);
-      }
-    },
-    [setData, setBtnVisible, setShowLabel]
-  );
+  //changeHandler
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const elementValue = e.target as HTMLInputElement;
+    setInput(elementValue.value);
+  };
+  const clickHandler = () => {
+    setShowLabel(true);
+  };
 
   useEffect(() => {
-    if (setData) {
-      window.addEventListener("keyup", handleKeyUp);
-    } else {
-      window.removeEventListener("keyup", handleKeyUp);
+    const d = new Date();
+    const todoData = localStorage.getItem("submit");
+    const newdate = d.toLocaleDateString();
+    const setdate = localStorage.getItem("currdate");
+
+    if (newdate !== setdate) {
+      localStorage.removeItem("submit");
     }
-    return () => window.removeEventListener("keyup", handleKeyUp);
-  }, [setData, handleKeyUp, submitHandler]);
+    if (todoData) {
+      return JSON.parse(todoData);
+    } else {
+      return [];
+    }
+  }, [setSubmit]);
+
+  //Esc Key Logic
+  useEffect(() => {
+    const handleEvent = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowLabel(false);
+      }
+    };
+    document.addEventListener("keydown", handleEvent);
+    return () => {
+      document.removeEventListener("keydown", handleEvent);
+    };
+  }, [setShowLabel]);
+
+  useEffect(() => {
+    localStorage.setItem("submit", JSON.stringify(submit));
+  }, [submit]);
 
   return (
     <>
-      <div className="container">
-        <TodoDate />
-        <div>
-          <TodoList value={data} />
-          {showLabel && (
-            <form onSubmit={submitHandler}>
-              <input
-                className="Input-label"
-                type="text"
-                placeholder="Eneter something here"
-                required
-                min="1"
-              />
-            </form>
-          )}
-        </div>
+      <TodoContext.Provider value={{ submit, setSubmit }}>
+        <div className="container">
+          <TodoDate />
+          <div>
+            <TodoList {...submit[0]} />
+            {showLabel && (
+              <form onSubmit={submitHandler}>
+                <input
+                  className="Input-label"
+                  type="text"
+                  placeholder="Eneter something here"
+                  required
+                  autoFocus
+                  value={input}
+                  onChange={changeHandler}
+                  min="1"
+                />
+              </form>
+            )}
+          </div>
 
-        <div>
-          {btnVisible && (
-            <button className="Todo-btn" onClick={clickHandler}>
-              +
-            </button>
-          )}
+          <div>
+            {!showLabel && (
+              <button className="Todo-btn" onClick={clickHandler}>
+                +
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      </TodoContext.Provider>
     </>
   );
 };

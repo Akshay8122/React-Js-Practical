@@ -1,24 +1,35 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { TodoContext } from "./Todo";
 
 interface TodoInf {
-  description: string;
+  id: number;
+  data: string;
+  check: boolean;
 }
-const TodoDescription = (props: TodoInf) => {
-  const [listItem, setListItem] = useState(false);
-  const Status = () => {
-    setListItem(!listItem);
+const todoDescription = (prop: TodoInf) => {
+  //use of usecontext hook
+  const { submit, setSubmit } = useContext(TodoContext);
+
+  const chekStatus = (id: number) => {
+    const todolistitem = submit.map((item) => {
+      if (item.id === id) {
+        return { ...item, check: !item.check };
+      }
+      return item;
+    });
+    setSubmit(todolistitem);
   };
 
   return (
     <div className="Description">
-      <p className={listItem ? "change" : ""}>{props.description} </p>
+      <p className={prop.check ? "change " : "not-change"}>{prop.data} </p>
       <i
         className={`fa fa-light fa-dot-circle font_style pt-1 ${
-          listItem ? "change_style" : "text-dark"
+          prop.check ? "text-success" : "text-dark"
         }`}
-        onClick={Status}
+        onClick={() => chekStatus(prop.id)}
       ></i>
     </div>
   );
 };
-export default TodoDescription;
+export default todoDescription;
