@@ -3,13 +3,7 @@ import "./App.css";
 import { TodoContext } from "./Todo";
 import { useContext } from "react";
 
-interface TodoListProp {
-  id: number;
-  data: string;
-  check: boolean;
-}
-
-const TodoList = (prop: TodoListProp) => {
+const TodoList = () => {
   const { submit } = useContext(TodoContext);
 
   return (

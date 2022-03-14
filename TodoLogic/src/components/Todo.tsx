@@ -7,15 +7,16 @@ interface TodoListProp {
   data: string;
   check: boolean;
 }
-type contexttype = {
+
+type Contexttype = {
   submit: TodoListProp[];
   setSubmit: React.Dispatch<React.SetStateAction<TodoListProp[]>>;
 };
 //creating Context
-export const TodoContext = createContext({} as contexttype);
+export const TodoContext = createContext<Contexttype | undefined>(undefined);
 
 const getLocalItems = () => {
-  let storageList = localStorage.getItem("submit");
+  const storageList = localStorage.getItem("submit");
 
   if (storageList) {
     return JSON.parse(localStorage.getItem("submit"));
@@ -36,7 +37,6 @@ const Todo = () => {
     let currdate = date.toLocaleDateString();
     localStorage.setItem("currdate", currdate);
     setShowLabel(true);
-    JSON.parse(localStorage.getItem("submit"));
 
     const submitdata = [
       {
@@ -55,24 +55,8 @@ const Todo = () => {
     setInput(elementValue.value);
   };
   const clickHandler = () => {
-    setShowLabel(true);
+    setShowLabel(true); 
   };
-
-  useEffect(() => {
-    const d = new Date();
-    const todoData = localStorage.getItem("submit");
-    const newdate = d.toLocaleDateString();
-    const setdate = localStorage.getItem("currdate");
-
-    if (newdate !== setdate) {
-      localStorage.removeItem("submit");
-    }
-    if (todoData) {
-      return JSON.parse(todoData);
-    } else {
-      return [];
-    }
-  }, [setSubmit]);
 
   //Esc Key Logic
   useEffect(() => {
@@ -85,10 +69,16 @@ const Todo = () => {
     return () => {
       document.removeEventListener("keydown", handleEvent);
     };
-  }, [setShowLabel]);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("submit", JSON.stringify(submit));
+    const d = new Date();
+    const newdate = d.toLocaleDateString();
+    const setdate = localStorage.getItem("currdate");
+    if (newdate !== setdate) {
+      localStorage.removeItem("submit");
+    }
   }, [submit]);
 
   return (
@@ -97,7 +87,7 @@ const Todo = () => {
         <div className="container">
           <TodoDate />
           <div>
-            <TodoList {...submit[0]} />
+            <TodoList />
             {showLabel && (
               <form onSubmit={submitHandler}>
                 <input
