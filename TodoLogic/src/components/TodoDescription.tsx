@@ -6,7 +6,7 @@ interface TodoInf {
   data: string;
   check: boolean;
 }
-const todoDescription = (prop: TodoInf) => {
+const TodoDescription = (prop: TodoInf) => {
   //use of usecontext hook
   const { submit, setSubmit } = useContext(TodoContext);
 
@@ -32,4 +32,4 @@ const todoDescription = (prop: TodoInf) => {
     </div>
   );
 };
-export default todoDescription;
+export default TodoDescription;
