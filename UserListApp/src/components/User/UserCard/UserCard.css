@@ -1,0 +1,76 @@
+.userCard {
+  width: 280px;
+  height: 420px;
+  position: absolute;
+  margin-left: -5%;
+  z-index: 1;
+  top: 16%;
+  padding: 25px 20px;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  border-radius: 30px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.avtar_img {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.userName {
+  font-size: 14px;
+  font-weight: 700;
+}
+.userEmail {
+  font-size: 14px;
+  opacity: 0.6;
+  padding: 2px;
+}
+.userPlan {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.userPlanUses {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  align-self: flex-start;
+}
+.totalPlanUses {
+  align-self: flex-start;
+  height: 5px;
+  width: 100%;
+  background-color: rgba(245, 202, 122, 0.3);
+  margin-top: 8px;
+}
+.planBar {
+  border-radius: 6px;
+  height: 5px;
+  width: 60%;
+  background-color: orange;
+}
+.cardReviewe {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+.line {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.clickReviewed,
+.monthlyClick {
+  font-size: 25px;
+  font-weight: 800;
+}
+.reviewedText,
+.monthlyClickText {
+  font-size: 12px;
+  opacity: 0.6;
+}
