@@ -1,9 +1,12 @@
-import { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { UserDetails } from "../Interface/UserAction";
 import { userInfo } from "./Data/UserInfo";
+import UsersCard from "./UserCard/UserCard";
 import UserComponent from "./UserData/UserComponent";
+
 const UserList = () => {
-  const [records, setRecord] = useState(userInfo);
+  const [user, setUser] = useState<UserDetails | null>(null);
+
   return (
     <>
       {/* Users List */}
@@ -18,8 +21,22 @@ const UserList = () => {
           </thead>
 
           {/* Mapping Users  */}
-          {records.map((userRecord: UserDetails, index: number) => {
-            return <UserComponent data={userRecord} key={index} />;
+          {userInfo.map((userRecord: UserDetails) => {
+            return (
+              <Fragment key={userRecord.id}>
+                <UserComponent
+                  isActive={userRecord.status === "Active" ? true : false}
+                  data={userRecord}
+                  setUser={setUser}
+                />
+
+                <tbody>
+                  <tr>
+                    <td>{user !== null && <UsersCard user={user} />}</td>
+                  </tr>
+                </tbody>
+              </Fragment>
+            );
           })}
         </table>
       </div>

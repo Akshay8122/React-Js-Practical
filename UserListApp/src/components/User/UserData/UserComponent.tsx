@@ -1,11 +1,14 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import * as Icon from "react-feather";
 import { UserDetails } from "../../Interface/UserAction";
-import UsersCard from "../UserCard/UserCard";
+// import UsersCard from "../UserCard/UserCard";
 import "./UserComponent.css";
 
-const UserComponent: FC<{ data: UserDetails }> = ({ data }) => {
-  const [user, setUser] = useState<UserDetails | null>(null);
+const UserComponent: FC<{
+  setUser: React.Dispatch<React.SetStateAction<UserDetails | null>>;
+  data: UserDetails;
+  isActive: boolean;
+}> = ({ data, setUser, isActive }) => {
   return (
     <>
       <tbody>
@@ -35,7 +38,25 @@ const UserComponent: FC<{ data: UserDetails }> = ({ data }) => {
               <span>{data.email}</span>
             </div>
           </td>
-          {data.id !== 1 ? (
+          {isActive ? (
+            <>
+              <td>
+                <span className="text-success pl-3">{data.status}</span>
+              </td>
+              <td>
+                <span className="pl-4">{data.access}</span>
+              </td>
+              <td className="col-md-2">
+                {/* feather Icon */}
+                <Icon.Lock
+                  size={18}
+                  style={{
+                    color: "rgba(0, 0, 0, 0.6)",
+                  }}
+                />
+              </td>
+            </>
+          ) : (
             <>
               <td>
                 <select className="selectMenu">
@@ -59,27 +80,7 @@ const UserComponent: FC<{ data: UserDetails }> = ({ data }) => {
                 />
               </td>
             </>
-          ) : (
-            <>
-              <td>
-                <span className="text-success pl-3">{data.status}</span>
-              </td>
-              <td>
-                <span className="pl-4">{data.access}</span>
-              </td>
-              <td className="col-md-2">
-                {/* feather Icon */}
-                <Icon.Lock
-                  size={18}
-                  style={{
-                    color: "rgba(0, 0, 0, 0.6)",
-                  }}
-                />
-              </td>
-            </>
           )}
-          {/* User Profile Component */}
-          <td>{user !== null && <UsersCard user={user} />}</td>
         </tr>
       </tbody>
     </>
