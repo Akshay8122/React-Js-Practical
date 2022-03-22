@@ -1,11 +1,11 @@
 .userCard {
   width: 280px;
-  height: 420px;
   position: absolute;
-  left: 72%;
-  top: 14%;
+  margin-left: 770px;
+  z-index: 100;
+  top: 105px;
   padding: 25px 20px;
-  box-shadow: 0px 4px 12px rgba(160, 155, 155, 0.1);
+  box-shadow: 0px 0px 6px rgba(160, 155, 155, 0.1);
   border-radius: 30px;
   display: inline-flex;
   flex-direction: column;

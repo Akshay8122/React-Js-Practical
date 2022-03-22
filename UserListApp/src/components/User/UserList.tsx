@@ -22,7 +22,7 @@ const UserList = () => {
 
           {/* Mapping Users  */}
           {userInfo.map((userRecord: UserDetails) => {
-            return (
+            return (  
               <Fragment key={userRecord.id}>
                 <UserComponent
                   isActive={userRecord.status === "Active" ? true : false}
