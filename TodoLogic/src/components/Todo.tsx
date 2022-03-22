@@ -55,7 +55,7 @@ const Todo = () => {
     setInput(elementValue.value);
   };
   const clickHandler = () => {
-    setShowLabel(true); 
+    setShowLabel(true);
   };
 
   //Esc Key Logic
