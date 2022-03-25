@@ -6,7 +6,7 @@ export interface UsersAction {
   email: string;
   avatar: string;
 }
-export interface usersList<T> {
+export interface UsersList<T> {
   page: number;
   per_page: number;
   total: number;

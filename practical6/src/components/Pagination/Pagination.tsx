@@ -17,13 +17,21 @@ export function Pagination(
         </button>
         <button
           onClick={() => setPage(1)}
-          className="btn btn-dark mr-3 shadow rounded"
+          className={
+            page === 1
+              ? "btn btn-primary mr-3 shadow rounded"
+              : "btn btn-dark mr-3 shadow rounded"
+          }
         >
           1
         </button>
         <button
           onClick={() => setPage(2)}
-          className="btn btn-dark mr-3 shadow rounded"
+          className={
+            page === 2
+              ? "btn btn-primary mr-3 shadow rounded"
+              : "btn btn-dark mr-3 shadow rounded"
+          }
         >
           2
         </button>

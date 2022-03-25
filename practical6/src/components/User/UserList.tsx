@@ -29,11 +29,9 @@ const UserList = () => {
                 <Fragment key={userRecord.id}>
                   <UserComponent data={userRecord} setUser={setUser} />
 
-                  <tbody>
-                    <tr>
-                      <td>{user !== null && <UsersCard user={user} />}</td>
-                    </tr>
-                  </tbody>
+                  <tr>
+                    <td>{user !== null && <UsersCard user={user} />}</td>
+                  </tr>
                 </Fragment>
               );
             })}

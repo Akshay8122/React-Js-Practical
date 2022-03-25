@@ -26,10 +26,10 @@ const UsersCard = ({ user }: { user: UsersAction | null }) => {
           <p className="userPlan m-0">Your Plan: Standard</p>
           <button
             className={`btn ${
-              user.id === 1 ? "btn-warning" : "btn-danger"
+              user.id === 1 || user.id === 7 ? "btn-warning" : "btn-danger"
             } w-70 fw-bold text-white mt-2`}
           >
-            {user.id === 1 ? "Active User" : "Inactive User"}
+            {user.id === 1 || user.id === 7 ? "Active User" : "Inactive User"}
           </button>
           <label className="userPlanUses p-0 mb-0">Plan Uses</label>
           <div className="totalPlanUses">

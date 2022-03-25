@@ -32,6 +32,10 @@ module.exports = {
         ],
       },
       {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+      },
+      {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
