@@ -42,7 +42,7 @@ const SignupPage: React.FC = () => {
     localStorage.setItem("IsLoggedin", JSON.stringify(signUp.isLoggedin));
 
     dispatch(usersSignup(signUp));
-    navigation("/home");
+    navigation("/home", { replace: true });
   };
 
   return (

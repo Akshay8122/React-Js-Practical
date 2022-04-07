@@ -1,18 +1,27 @@
-import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router";
 import { State } from "../../redux/reducers";
 
-interface PropType {
-  component: React.FC;
-}
-
-const Auth: FC<PropType> = ({ component: Component }) => {
+const Auth = ({
+  children,
+  component,
+}: {
+  children: JSX.Element;
+  component: string;
+}) => {
   const user = useSelector((state: State) => state.users);
-  if (user.isLoggedin) {
-    return <Component />;
+  if (!user.isLoggedin) {
+    if (component === "/SignupPage") {
+      return <Navigate replace to={component} />;
+    } else {
+      return children;
+    }
   } else {
-    return <Navigate to="/" />;
+    if (component === "/home") {
+      return <Navigate replace to={component} />;
+    } else {
+      return children;
+    }
   }
 };
 
